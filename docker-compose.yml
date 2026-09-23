@@ -1,0 +1,11 @@
+services:
+  pricepulse:
+    build:
+      context: .
+      args:
+        VITE_ENABLE_MOCK_API: "true"
+        VITE_ENABLE_DEMO_CONTROLS: "true"
+    image: pricepulse:local
+    ports:
+      - "8080:80"
+    restart: unless-stopped
