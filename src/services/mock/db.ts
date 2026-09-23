@@ -41,6 +41,7 @@ function createFreshState(): MockState {
 
 function readState(): MockState {
   const fresh = createFreshState();
+  const storedHistory = storageService.get<Record<string, PriceHistoryPoint[]>>(storageKeys.priceHistory);
   return {
     users: storageService.get<User[]>(storageKeys.users) ?? fresh.users,
     products: storageService.get<Product[]>(storageKeys.products) ?? fresh.products,
@@ -50,9 +51,7 @@ function readState(): MockState {
       storageService.get<AppNotification[]>(storageKeys.notifications) ?? fresh.notifications,
     recentSearches: storageService.get<string[]>(storageKeys.recentSearches) ?? fresh.recentSearches,
     recentlyViewed: storageService.get<string[]>(storageKeys.recentlyViewed) ?? fresh.recentlyViewed,
-    priceHistory:
-      storageService.get<Record<string, PriceHistoryPoint[]>>(storageKeys.priceHistory) ??
-      fresh.priceHistory,
+    priceHistory: { ...fresh.priceHistory, ...storedHistory },
   };
 }
 
